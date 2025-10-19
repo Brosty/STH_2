@@ -1,0 +1,1 @@
+.item_info{position:absolute;left:170px;top:20px;z-index:50;background:#1A1A1A;color:#999;border:1px solid #9F0;padding:7px 7px 7px 14px;box-sizing:border-box;transition-property:opacity,visibility;transition-duration:.5s,0s;transition-delay:0s,.5s;width:276px;min-height:24px;border-radius:1px}.item_info .item_info__img{min-height:100px}

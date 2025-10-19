@@ -1,0 +1,106 @@
+	/* BASE */
+	
+#searchResultsRows .market_listing_row_link.steamtraderhelper{
+	position:relative;
+}
+
+#searchResultsRows .market_listing_row_link.steamtraderhelper .sth_link.sthb{
+	position: absolute;
+	top: -63px;left: 409px;
+}
+
+/*----------*/
+
+.sth_link{
+	margin: 0 15px;
+	margin: 0px 1em;
+	width: 77px;
+}
+
+.steamtraderhelper_inventory{
+	position:relative}
+.steamtraderhelper_inventory .sthb{
+	position:absolute;
+	top:0;
+	left: 110%}
+	
+	
+#inventories .disabled{
+	display: none;
+}
+
+	#inventories::-webkit-scrollbar {
+		margin:3px;height:9px;width:9px;
+		background: #545454;
+		-webkit-border-radius: 4ex;
+		-webkit-box-shadow: 0px 1px 3px rgba(0,0,0,.75);
+		background:-webkit-gradient(linear, left, right, color-stop(0%,#5c5c5c), color-stop(100%,#808080));
+	}
+	#inventories::-webkit-scrollbar-thumb {
+		background:#393812;width:9px;
+		background:-webkit-gradient(linear, left, right, color-stop(100%,#a3a3a3), color-stop(0%,#c4c4c4) );
+		background:-webkit-linear-gradient(45deg, #c4c4c4 0%,#a3a3a3 100%); 
+		-webkit-border-radius:4ex;
+		-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.75);
+	}
+
+	#inventories::-webkit-scrollbar-corner {
+		background:#000;background:#399892;
+	}
+
+.STH_itemHolder_group{
+	position: relative;/*
+	width: 98px;
+	height: 98px;
+	float: left;
+	margin:0 4px 4px 0;*/
+}
+.STH_itemHolder_group .item{
+	position: absolute !important;
+	top:0;
+	left: 0;
+}
+.STH_itemHolder_group .item img{
+	position: relative;
+	z-index: 1;
+}
+
+.STH_itemHolder_group_cnt{
+	position: absolute;
+	z-index: 20;
+	background: #ccc;
+	padding: 5px;
+	border-radius: 0 0 15px 0;
+}
+
+.market_listing_largeimage{
+	position: relative;
+}
+
+.market_listing_largeimage .sth_link{
+	margin: 0;
+	position: absolute;
+	bottom:15px;
+	right: 15px;
+}
+
+#searchResultsRows .sth_link {
+	margin: 0;
+    position: absolute;
+    z-index: 100;
+    white-space: nowrap;
+    width: 77px;
+	top: 53px;
+    left: 81px;
+}
+
+.sth_link.activ{
+	filter: grayscale(100%);
+    -webkit-filter: grayscale(100%); 
+}
+
+.my_listing_section.market_content_block.market_home_listing_table,
+.market_content_block.my_listing_section.market_home_listing_table{
+	max-height: 1000px;
+    overflow: auto;
+}

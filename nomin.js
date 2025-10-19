@@ -1,0 +1,1 @@
+!function(e){var i=[];function*n(){var t=e.STH().authS();if(t)for(;i.length;){var n=i.pop();e.DB.item.getOne(n).then(function(t){e.DB.isEmpty(t)&&e.app.faendData(t)}),yield 1}}setTimeout(function t(){e.DB.getItemWithEmpty().then(function(t){for(var n=0;n<t.length;n++)i.push(t[n])}).finally(function(){synch(n,function(){setTimeout(t,2e5)},2e4)})},2e4)}(this);

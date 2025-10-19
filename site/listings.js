@@ -1,0 +1,1 @@
+/((http||https):\/\/steamcommunity.com\/market\/)/i.test(this.location.href)&&function(){function t(){console.log("STH",t.caller.name,arguments)}jQuery.get("//steamcommunity.com/market/mylistings"),t("mylistings")}((jQuery,window));

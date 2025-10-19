@@ -1,0 +1,66 @@
+{
+	"manifest_version": 2,
+	"version": "2.3.0.13",
+	"name":"Steam Trader Helper",
+	"short_name": "S.T.H.",
+	
+	"description": "This extension facilitate the work on the Steam Community Market.",
+	"default_locale":"en",
+
+	"icons":{
+		"48":"ico/48.png",
+		"128":"ico/128.png"
+	},
+
+	"permissions":[
+		"http://steamcommunity.com/*",
+		"http://*.steamcommunity.com/*",
+		"https://steamcommunity.com/*",
+		"https://*.steamcommunity.com/*",
+		
+		"ws://*.steamtraderhelper.com/*",
+		"http://*.steamtraderhelper.com/*",
+		"https://steamtraderhelper.com/*",
+		"https://*.steamtraderhelper.com/*",
+		"https://steamcommunity-a.akamaihd.net/*",
+		"http://www.w3.org/*",
+
+		"cookies",
+		"tabs"
+		
+	],
+	"web_accessible_resources": [
+		"ico/19.png"
+		,"site/js/min.js"
+		,"site/css/site.css"
+	],
+
+	"browser_action":{
+		"default_title": "steam trader helper V2",
+		"default_icon": "ico/19.png"
+	},
+	
+	"background": {
+	    "scripts": [
+			"lib/jq.js",
+			"SteamTraderHelper.js"
+	    ]
+	},
+	
+   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+	
+	"content_scripts":[{
+		"all_frames": true,
+		"matches"	: [
+			"http://*.steamcommunity.com/*",
+			"https://steamcommunity.com/*"
+		],
+		"css":        ["site/site.css"],
+		"js"		: [
+			"lib/jq.js",
+			"site/script.js"
+		],
+		"run_at" : "document_end"
+	}]
+	
+}

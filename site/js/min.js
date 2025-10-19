@@ -1,0 +1,1 @@
+!function(){function n(n,e){var o=window[n],r=0;window[n]=function(n){var a=Date.now();e<a-r&&(o(n),r=a)}}n("UpdateFrontPage",2e4),n("Market_LoadOrderSpread",5e4)}();

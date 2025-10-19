@@ -1,0 +1,733 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>STH</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link href="css/page.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="metodDef">
+
+<div class="row">
+	<div class="col left">
+		<div class="head">
+			<span class="head-m ib" id="lTop"></span>
+			<div class="pyInfo noAuth"><a href="https://steamtraderhelper.com/user/order/" class="green">To operate additional functions need to login and pay for a subscription >></a></div>
+			<div class="pyInfo subscription">Subscription > <i class="green">Days left: <i class="cnt"></i></i> (<a href="https://steamtraderhelper.com/user/order/">Renew</a>)</div>
+			<div class="pyInfo noSubscription">Subscription > <a href="https://steamtraderhelper.com/user/order/" class="green">Pay Now</a></div>
+		</div>
+		<div class="tools">
+			<table class="t-h" cellpadding="0"><thead>
+				<th class="thl relative">
+					<div class="pay help_block_th" data-help="TableHead"></div>
+					<span class="thl-ch">
+						<i class="checkbox">
+							<input type="checkbox" id="chAll"/>
+							<i></i>
+						</i>
+					</span>
+					<span class="thl-t">Item name
+						<div class="ib lbS"><div><i class="reSort" data-t="n"></i></div><div><i class="sort" data-t="n"></i></div></div>
+					</span>
+
+					<table id="chTabHead" class="head_action">
+						<tr>
+							<td class="w_btn">
+								<i class="ico pay group" id="chGrp"></i>
+								<i class="ico pay ungroup" id="chUGrp"></i>
+								<i class="ico del" id="chDel"></i>
+							</td>
+					</table>
+				</th>
+				<th class="w_inp"><span>Price <div class="ib lbS"><div><i class="reSort" data-t="p"></i></div><div><i class="sort" data-t="p"></i></div></span></th>
+				<th class="w_inp"><span>Orders <div class="ib lbS"><div><i class="reSort" data-t="o"></i></div><div><i class="sort" data-t="o"></i></div></span></th>
+				<th class="thb w_inp"><span>Quantity <div class="ib lbS"><div><i class="reSort" data-t="q"></i></div><div><i class="sort" data-t="q"></i></div></span></th>
+				<th class="thb w_inp budget"><span>Budget <div class="ib lbS"><div><i class="reSort" data-t="b"></i></div><div><i class="sort" data-t="b"></i></div></span></th>
+				<th class="thb w_inp budget metod_q"><span>React price</th>
+				<th class="thb w_on"></th>
+				<th class="ths w_inp2 pay alignL js-selTh">
+
+					<span class="thPays js-Pays thSHBL">
+						<span class="min">Buyer</span>
+						<span class="max">Buyer pays</span>
+					</span>
+					<span class="thSHBraz">/</span>
+					<span class="thReceive js-Receive thSHBR">
+						<span class="min">Receive</span>
+						<span class="max">You receive</span>
+						<!-- <div class="ib lbS"><div><i class="reSort" data-t="s"></i></div><div><i class="sort" data-t="s"></i></div> -->
+					</span>
+
+
+				<th class="ths w_on pay"><i class="ico icoLRcol" id="rrr"></i></th>
+
+				<th class="w100 metod_d"></th>
+			</thead></table>
+			<i class="start-p">
+				<i class="ico start" id="str"></i>
+			</i>
+		</div>
+		<div class="t-s">
+			<table class="t-b" cellpadding="0" id="Group">
+				<script id="group" type="text/html"><tbody data-idg="{{id}}" class="js__tbody_{{id}}">
+				  <tr class="pay grp grp_{{open}} type_{{type}}" id="gr_{{id}}" data-id="{{id}}">
+					<td><div class="grp-td">
+						  <i class="open"></i><i class="close"></i>
+
+						  <i class="checkbox"><input type="checkbox" class="chkGroup" data-id="{{id}}"/><i></i></i>
+						  <i class="grp-t"><input value="{{name}}" class="grp-inp js-grp-name"/></i>
+						  <i class="grp-col"></i>
+						  <i class="grp-col-sel"><i class="col_0"></i><i class="col_1"></i><i class="col_2"></i><i class="col_3"></i><i class="col_4"></i><i class="col_5"></i><i class="col_6"></i><i class="col_7"></i><i class="col_8"></i><i class="col_9"></i><i class="col_10"></i><i class="col_11"></i><i class="col_12"></i><i class="col_13"></i><i class="col_14"></i><i class="col_15"></i><i class="col_16"></i><i class="col_17"></i></i>
+					</div></td>
+					<td class="w_inp gr_count_ metod_d"></td>
+					<td class="grp-tools" colspan="8">
+						<span class="ib">Quantity of items in one order</span>
+						<i class="ib w_inp"><input class="inp grp-inp-r js-grp-quantity" value="{{quantity_val}}" placeholder="{{quantity_deff}}"/></i>
+					</td>
+				  </tr>
+					{{items}}
+				</tbody></script>
+			</table>
+			<table class="t-b" cellpadding="0">
+				<tbody id="Inventars" data-idg="0" class="js__tbody_0"></tbody>
+				<script id="item" type="text/html">
+					<tr class="r_{{id}} item item_type{{buy_type}} {{item_filterOnOff}}" id="item_{{id}}" data-id="{{id}}">
+					  <td><div class="item_div">
+							<i class="move"><i class="sort move-down"></i><i class="reSort move-up"></i></i>
+							<i class="checkbox grad"><input type="checkbox" class="chkItem" id="chI_{{id}}" data-id="{{id}}" {{checked}}/><i></i></i>
+						    <img class="item-img-btn ico_appid_{{appid}}" src="{{icon_game}}" data-id="{{id}}"/>
+						    <span class="span l">
+								<nobr>
+									<a class="item_name" target="_blank" href="{{urlFull}}">{{name}}</a>
+									<span class="item_filter_show">{{filterName}}</span>
+									<span class="can_float item_floatFilter_show">{{max_float}} - {{min_float}}</span>
+								</nobr>
+								<span class="item_Ation pay">
+									<i class="item_filter_view" data-c="filterHover">
+										<i class="ib ico ico-filter js-filter"></i>
+									</i>
+									<i class="item_filter_view can_float " data-c="floatFilterHover">
+										<i class="ib ico ico-float js-float"></i>
+									</i>
+									<!--<i class="cont_menu hover"><i class="r90">•••</i></i>-->
+									<i class="cont_menu hover"><i class="ib">
+										<i class="dot"></i><i class="dot"></i><i class="dot"></i>
+									</i></i>
+								</span>
+							</span>
+						</div>
+					  </td>
+					  <td class="w_inp">
+						  <div class="w100p relative">
+						    <span class="span Prise js_SellPrise" data-id="{{id}}"></span>
+							<span class="span SellInfo pay" data-hash="{{market_hash_name}}" data-appid="{{appid}}"></span>
+						  </div>
+					  </td>
+					  <td class="w_inp relative">
+						  <span class="useFloatFilter span">float</span>
+						  <span class="useFilter span">filter</span>
+						  <div class="w100p relative">
+							<span class="span Order js_OrderPrise" data-id="{{id}}"></span>
+							<span class="span OrderInfo"></span>
+						  </div>
+					  </td>
+
+					  <td class="thb w_inp"><input class="inp b_Count"  value="{{b_cnt}}" data-id="{{id}}"/></td>
+					  <td class="thb w_inp"><input class="inp b_Budget" value="{{Budget}}" data-id="{{id}}"/></td>
+					  <td class="thb w_inp metod_q">
+						  <span class="useFilter span">filter</span>
+						  <input class="inp b_BudgetMin" value="{{BudgetMin}}" data-id="{{id}}"/></td>
+
+					  <td class="thb w_on"><i class="onoff"><input type="checkbox" class="b_on" data-id="{{id}}" {{b_chack}}/><i></i></i></td>
+
+					  <td class="ths w_inp2 pay">{{tplSellColl}}
+					  <td class="ths w_on pay">
+						<i class="ib w_on"><i class="onoff"><input type="checkbox" class="s_on edit"  data-id="{{id}}" {{s_chack}}/><i></i></i></i>
+					  <td class="w100 metod_d">
+						  <i class="btn w100p disabled buyOrder js-BuyOrder" data-hash_name="{{market_hash_name}}" data-id="{{id}}" data-appId="{{appid}}"><i>&mdash;</i></i>
+				  </tr>
+				</script>
+				
+				<script type="text/html" id="coll_SELL_2">
+					<i class="ib w100p relative"><!--
+						--><input class="inp inpLeftTab s_Pays" value="{{Pays}}"/><!--
+						--><input class="inp inpRightTab s_Receive" value="{{Receive}}" data-id="{{id}}" /><!--
+						--><i class="inpLeftTabMarcer">•</i><i class="inpRightTabMarcer">•</i><!--
+					--></i>
+				</script>
+				<script type="text/html" id="coll_SELL_1">
+					<i class="ib w100p relative"><!--
+						--><input class="inp inpLeftTab s_Receive" value="{{Receive}}" data-id="{{id}}" /><!--
+						--><input class="inp inpRightTab s_Pays" value="{{Pays}}"/><!--
+						--><i class="inpLeftTabMarcer">•</i><i class="inpRightTabMarcer">•</i><!--
+					--></i>
+				</script>
+			</table>
+
+			<div class="contextMenu contextMenu_item" id="ActionsItem">
+				<div class="contextMenu_text">
+					<div class="contextMenu-item">Remove sale</div>
+					<div class="contextMenu-item">Remove order</div>
+					<div class="contextMenu-item">Edit filter</div>
+				</div>
+			</div>
+
+			<div class="contextMenu contextMenu_tab" id="OBTabItem">
+				<div class="contextMenu_text"></div>
+			</div>
+
+			<div class="contextMenu contextMenu_tab_m" id="OBMyItem">
+				<div class="contextMenu_text">
+					<table>
+						<tr><td>Quantity: <td class="quantity alignR">
+						<tr><td>Price: <td class="price alignR">
+					</table>
+				</div>
+			</div>
+			<div class="contextMenu contextMenu_tab_m" id="OSMyItem">
+				<div class="contextMenu_text">
+					<table>
+						<tr><td>Quantity: <td class="quantity alignR">
+						<tr><td>Price <td class="price alignR">
+					</table>
+				</div>
+			</div>
+
+			<div class="item_info load" id="item_info">
+				<i class="l_start"></i><i class="l_end"></i>
+				<div class="item_info__load">
+
+				</div>
+				<div class="item_info__err">
+					<div class="item_info__err__ico"></div>
+					<div class="item_info__err__text">
+						Failed to load dada, pleas try again later
+					</div>
+				</div>
+				<div class="item_info__data">
+					<div class="item_info__img"><img src=""/></div>
+
+					<hr/>
+					<div class="item_info__head__data1"></div>
+					<div class="item_info__head__data2"></div>
+					<div class="item_info__head__data3"></div>
+					<div class="item_info__head"></div>
+
+					<div class="item_info__app">
+						<img class="item_info__app__ico"/>
+						<div class="item_info__app__name"></div>
+						<div class="item_info__app__type"></div>
+					</div>
+
+					<div class="item_info__text item_info__text__small">
+						<div class="item_info__text__val"></div>
+						<a class="item_info__text__btn_expand" href="#">Expand >></a>
+					</div>
+
+					<hr/>
+
+					<div class="item_info__graph">
+						<div class="item_info__graph_currency"></div>
+						<div class="item_info__graph__focus"><div class="y1"></div>|<div class="y2"></div>|<div class="y3"></div></div>
+						<svg width ="378" height="200"></svg></div>
+					<div class="item_info__graph_acc">
+						<span class="item_info__graph_acc__on" data-c="7">week</span> |
+						<span class="item_info__graph_acc__on" data-c="31">month</span> |
+						<span class="item_info__graph_acc__on" data-c="">all time</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col right">
+
+		<div class="head">
+			<div class="cont r">
+				<a target="_blank" href="https://steamtraderhelper.com/user/" id="lSTH">login</a>
+			</div>
+		</div>
+		<div class="tools">
+			<div class="cont" id="balance"></div>
+		</div>
+		<div class="cont scrol" id="Widgets">
+			<script id="widgetSteam" type="text/html">
+				<div class="widget_steam">
+					<div class="title">Steam Community Status</div>
+					<div class="body">
+						<p><a target="_blank" href="{{href}}">{{name}}</a></p>
+						<p><a target="_blank" href="https://steamstat.us/">Service status:</a> <i class="status"></i> </p>
+
+						<a target="_blank" href="{{href}}" class="ico login_ico login_ico_{{isLogin}}"></a>
+					</div>
+				</div>
+			</script>
+
+			<script id="widgetTools" type="text/html">
+				<div class="widget_tools">
+					<div class="title">Tools <i class="doMin"></i></div>
+					<div class="body">
+
+
+						<div>
+							<table><tr>
+									<td class="w1" data-help="Backup">Backup List:</td><td class="w1 alignR"><i class="btn" id="wExport"><i>Save</i></i><i class="btn {{loadDisabled}}" id="wImport"><i>Load</i></i></td>
+							</tr></table>
+							<table class="ln w100p tdH18">
+								<tr class=""> <td data-help="PageMinQ">
+										<i class="checkbox">
+											<input type="checkbox" id="wPageMinQ"/>
+											<i></i>
+										</i> &nbsp;Minimize of requests in tabs
+									<td class=" alignR ">
+							</table>
+						</div>
+					</div>
+				</div>
+			</script>
+
+			<script id="widgetHistory1" type="text/html">
+				<div class="widget_tools ">
+					<div class="title">History <i class="doMin"></i></div>
+					<div class="body"></div>
+				</div>
+			</script>
+
+			<script id="widgetOptions" type="text/html">
+				<div class="widget_options">
+					<div class="title">Options<i class="doMin"></i></div>
+					<div class="body">
+						<table class="ln w100p tdH18">
+							<tr><td class="" data-help="BuyOrder">Buy order :
+							<tr><td class="" data-help="BuyOrderCnt"><!--Number of Items in one order-->
+																	Quantity of items in one order
+								<td><i class="ib w_inp">
+									<input id="wOptBuyOrderCnt" class="inp" placeholder="1" type="number" step="1"/></i>
+						</table>
+						<hr class="raz"/>
+						<table class="ln w100p tdH18">
+							<tr class=""> <td data-help="PageMinQ">
+									<i class="checkbox">
+										<input type="checkbox" id="wPageMinQ"/>
+										<i></i>
+									</i> &nbsp;Minimize of requests in tabs
+								<td class=" alignR ">
+							<tr class="">
+								<td data-help="PauseTree">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptChkSSWhenErr"/>
+										<i></i>
+									</i> &nbsp;Pause when errors
+							<tr class=""><td  data-help="ClassicModesTree"><i class="checkbox">
+										<input type="checkbox" id="wOptChkClassick"/>
+										<i></i>
+									</i> &nbsp;Use classic modes
+						</table>
+						<table class="ln classick">
+							<tr><td class="">
+								Rate :
+								<td class=" alignR ">
+								<i class="ib w_inp">
+									<select class="sel" id="wOptionsRate">
+										<option value="S">Slow</option>
+										<option value="M">Medium</option>
+										<option value="F">Fast</option>
+									</select></i>
+								</td></tr>
+						</table>
+					</div>
+				</div>
+
+			</script>
+
+			<script id="widgetOptionsPay" type="text/html">
+				<div class="widget_options">
+					<div class="title" data-help="OptB">Options Buying<i class="doMin"></i></div>
+					<div class="body">
+
+						<table class="ln w100p tdH18">
+							<tr class="">
+								<td class="" data-help="ListingTime">
+									Check your listing (min)
+								<td class="alignR"><i class="ib w_inp">
+									<input id="wOptBuyOrderTime" class="inp" placeholder="5" type="number" step="1" min="1"/></i>
+							<tr class="">
+								<td class="" data-help="ItemInfoTime">
+									Check items info (sec)
+								<td class="alignR"><i class="ib w_inp">
+									<input id="wOptItemInfoTime" class="inp" placeholder="5" type="number" step="1" min="1"/></i>
+						</table>
+						
+						<hr class="raz"/>
+						
+						<table class="ln w100p">
+							<tr>
+								<td data-help="Rate" style="width:62px">Buy&nbsp;order:
+								<td style="width:auto"><i class="checkbox">
+										<input type="radio" id="wOptType" name="OptType" value="1" class="js-optType"/>
+										<i></i>
+									</i>&nbsp;Manual
+								<td  style="width:auto"><i class="checkbox">
+										<input type="radio" id="wOptType" name="OptType" value="2" class="js-optType"/>
+										<i></i>
+									</i>&nbsp;Auto
+								<td style="width:90px"><i class="checkbox">
+										<input type="radio" id="wOptType" name="OptType" value="3" class="js-optType"/>
+										<i></i>
+									</i>&nbsp;Quick&nbsp;order
+						</table>
+						
+						<table class="w100p tdH18">
+							<tr class="metod_q">
+								<td class="" data-help="QORate">
+									Rate (ms)
+								<td class="alignR"><i class="ib w_inp">
+									<input id="wOptQORate" class="inp" placeholder="1000" type="number" step="1"/></i>
+									
+							<tr class="metod_q">
+								<td class="" data-help="QORate">
+									Random rate (%)
+								<td class="alignR"><i class="ib w_inp">
+									<input id="wOptQORateRate" class="inp" placeholder="50" type="number" step="1"/></i>
+									
+							<tr class="metod_q">
+								<td class="" data-help="QORate">
+									Price above the current order
+								<td class="alignR"><i class="ib w_inp">
+									<input id="wOptQORateStep" class="inp" placeholder="0.1"/></i>
+									
+							<tr class="metod_d metod_a">
+								<td class="" data-help="BuyOrderCnt"><!--Number of Items in one order-->
+									Quantity of items in one order
+								<td class="alignR"><i class="ib w_inp">
+									<input id="wOptBuyOrderCnt" class="inp" placeholder="1" type="number" step="1"/></i>
+
+							<tr class="lnT metod_a">
+								<td data-help="BuyOrderCorrect">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptBuyOrderCorrect"/>
+										<i></i>
+									</i><span class="ib">&nbsp; Use autocorrect</span>
+								<td class="alignR"><i class="ib w_inp">
+									<input id="wOptBuyOrderCorrectStep" class="inp" placeholder="0.01"/></i>
+						</table>
+
+						<table class="w100p tdH18">
+							<tr class="metod_a _sthbA">
+								<td data-help="BuyOrderCorrectReplase">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptBuyOrderCorrectReplase"/>
+										<i></i>
+									</i><span class="ib">&nbsp; Auto replace orders</span>
+								<td data-help="BuyOrderCorrectReplaseOnlyPlus" class="alignR _sthbAR">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptBuyOrderCorrectReplaseOnlyPlus"/>
+										<i></i>
+									</i><span class="ib">&nbsp; Replace only up</span>
+
+							<tr class="lnT metod_a _sthbAR">
+								<td>Delay replace down (sec)</td>
+								<td class="alignR"><i class="ib w_inp"><input
+									id="wOptBuyOrderCorrectDelay"
+								 class="inp" placeholder="0" type="number" step="10" min="0"/></i></td>
+
+						</table>
+						<hr class="raz pay"/>
+						<table class="ln pay w100p tdH18">
+							<tr class="">
+								<td  data-help="BuyFilters" >Scan item with filters&nbsp;(ms)
+								<td class=" alignR ">
+									<i class="ib w_inp">
+										<input id="wOptRateFilter" class="inp custom" placeholder="10000" type="number"/></i>
+							<tr class="">
+								<td colspan="2"><i class="checkbox">
+										<input type="checkbox" id="wOptIgnoreFraudwarnings"/>
+										<i></i>
+									</i> &nbsp;Ignore name-tags
+						</table>
+						
+						<hr class="raz pay metod_d metod_a"/>
+						
+						<table class="ln pay w100p tdH18 metod_d metod_a">
+							<tr>
+								<td data-help="BuyClassick" colspan="2">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptChkClassick"/>
+										<i></i>
+									</i> &nbsp;Use classic modes
+
+							<tr class="classick lnT"> <td data-help="PrePrice">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptionsChkPPrice" class="ch_in_g"/>
+										<i></i>
+									</i> &nbsp;Pre-price&nbsp;(ms)
+									<td class=" alignR ">
+										<i class="ib w_inp">
+											<input id="wOptionsRatePPrice" class="inp custom" placeholder="1000" type="number"/></i>
+								
+							<tr class="classick">
+								<td>
+									<i class="checkbox">
+										<input type="checkbox" id="wOptionsChkPageC" class="ch_in_g"/>
+										<i></i>
+									</i> &nbsp;Queue&nbsp;(ms)
+									<td class=" alignR ">
+										<i class="ib w_inp">
+											<input id="wOptionsRatePageC" class="inp custom" placeholder="2000" type="number"/></i>
+
+								<tr class="classick ln"> <td class="">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptionsChkNL" class="ch_in_g" />
+										<i></i>
+									</i> &nbsp;Newly Listed&nbsp;(ms)
+									
+									<td class="w1 alignR">
+										<i class="ib w_inp">
+											<input id="wOptionsRateNL" class="inp custom" placeholder="2000" type="number"/></i>
+									</td>
+								</tr>
+								<tr class="classick "><td data-help="RandomMode">
+									Random rate (+%)
+									
+									<td class="w1 alignR">
+										<i class="ib w_inp">
+											<input id="wOptionsRandomMode" class="inp" placeholder="50" type="number"/></i>
+									</td>
+								</tr>
+						</table>
+						
+						<hr class="raz pay"/>
+						
+						<table class="ln pay w100p">
+								<tr>
+									<td style="width: 65px" data-help="PriceType">Price type:
+									<td style="width: auto"><i class="checkbox">
+											<input type="radio" name="pr_price" id="wOptionsRadPP" value="MIN" class="js-prPrice"/>
+											<i></i>
+										</i> &nbsp;MIN
+
+									<td style="width: auto"><i class="checkbox">
+											<input type="radio" name="pr_price" id="wOptionsRadPP" value="MAX" class="js-prPrice"/>
+											<i></i>
+										</i> &nbsp;MAX
+									
+
+									<td style="width: 62px"><i class="checkbox">
+											<input type="radio" name="pr_price" id="wOptionsRadPP" value="RND" class="js-prPrice"/>
+											<i></i>
+										</i> &nbsp;RND
+						</table>
+						
+						<hr class="raz pay classick"/>
+
+						<table class="ln pay w100p classick">
+							<tr>
+								<td data-help="DataType">Data type:
+								<td class="" colspan="2">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptionsChkHTML"/>
+										<i></i>
+									</i> &nbsp;HTML (preferably)
+
+								<td class="">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptionsChkJSON"/>
+										<i></i>
+									</i> &nbsp;JSON
+						</table>
+						
+						<hr class="raz pay"/>
+						
+						<table class="ln w100p tdH18">
+							<tr> 
+								<td data-help="AutostopStart">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptChkSSWhenErr"/>
+										<i></i>
+									</i> &nbsp;Pause when errors
+							<tr class="pay"> <td>
+									<i class="checkbox">
+										<input type="checkbox" id="wOptionsChkRunTime"/>
+										<i></i>
+									</i> &nbsp;Run time(min.)
+									<td class=" alignR ">
+										<i class="ib w_inp">
+											<input id="wOptionsRateRunTime" class="inp ss_input ss_input_time" placeholder="60" type="number" step="1"/></i>
+									</td></tr>
+							<tr class="pay"> <td>
+									Pause (min.)
+									<td class=" alignR ">
+										<i class="ib w_inp">
+											<input id="wOptionsRateStopTime" class="inp ss_input"  placeholder="10" type="number" step="1"/></i>
+									</td></tr>
+							<tr class="pay"> <td>
+									Random time (+%)
+									<td class=" alignR ">
+										<i class="ib w_inp">
+											<input id="wOptionsRandomSS" class="inp ss_input" placeholder="50" type="number" step="1"/></i>
+									</td></tr>
+						</table>	
+					</div>
+				</div>
+			</script>
+			
+			<script id="widgetOptionsSel" type="text/html">
+				<div class="widget_options pay">
+					<div class="title" data-help="OptS">Options Sale<i class="doMin"></i></div>
+					<div class="body">
+						<table class="w100p tdH18">
+							<tr class="ln"> <td data-help="ScanSell">
+									Scan inventory every (min)
+									<td class=" alignR ">
+										<i class="ib w_inp">
+											<input id="wOptSellTime" class="inp"  placeholder="15" type="number" step="1"/></i>
+									</td></tr>
+							
+							<tr> 
+								<td data-help="AutoSell">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptSellIsAuto"/>
+										<i></i>
+									</i> &nbsp;Use autocorrect
+									
+								<td class=" alignR ">
+									<i class="ib w_inp">
+										<input id="wOptSellIsAutoVtep" class="inp" placeholder="0.01"/></i>
+						</table>
+
+						<table class="w100p tdH18">
+							<tr class=" _sthsA"> 
+								<td data-help="AutoSellReplase">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptSellCorrectReplase"/>
+										<i></i>
+									</i> &nbsp;Auto replace sell
+						</table>
+
+						<table class="w100p tdH18">
+							<tr> 
+								<td data-help="AutoConf">
+									<i class="checkbox">
+										<input type="checkbox" id="wOptAutoConfirm"/>
+										<i></i>
+									</i> &nbsp;Automatically confirm sale
+						</table>
+					</div>
+				</div>
+			</script>
+			
+			<script id="widgetLink" type="text/html">
+				<div class="widget_link">
+					<div class="title">
+						<span class="title_l"></span>
+						
+						<span class="title_r title_r_text">[<a target="_blank" href="{{title_r_href}}">{{title_r}}</a>]</span>
+						
+					</div>
+					<div class="body">
+						
+					</div>
+				</div>
+			</script>
+		</div>
+	</div>
+</div>
+<div class="footer">
+	<div class="footer-l">
+		<div class="footer-ln">
+			<div data-help="AddUrl" class="ib AddUrl pay">
+							<i class="ib w255">
+								<input class="inp l" id="AddUrl_text" placeholder="Add items URL"/></i><i class="ico icoAddUrl" id="AddUrl"></i>
+						</div>
+			<div data-help="refreshData" class="ib refresh">
+				<i class="ico icoRefresh" id="RefreshData"></i>
+			</div>
+
+		<table id="chTab" class="tabCh">
+			<tr>
+				<td class="thb w_inp pay">
+					<i class="ico pay ico-group-filter" id="chGrpFilter"></i>
+					<i class="ico pay ico-group-float" id="chGrpFloat"></i>
+				</td>
+				<td class="thb w_inp"><input class="inp" id="chBCnt"/></td>
+				<td class="thb w_inp"><input class="inp" id="chBSum"/></td>
+				<td class="thb w_inp metod_q"><input class="inp" id="chBSumMin"/></td>
+				<td class="thb w_on"><i class="ico b_on" id="chBOn"></i><i class="ico b_off" id="chBOff"></i></td>
+
+
+				<!--<td class="ths w_inp pay"><input class="inp inpLeft" placeholder="Fix" id="chSSum"/><input class="inp inpRight" placeholder="%" id="chSSumProc"/></td>-->
+				<td class="ths w_inp2 pay js-selAcc"><input class="inp inpLeftTab js-selAccR" placeholder="" id="chSSumR"/><input class="inp inpRightTab js-selAccP" placeholder="" id="chSSum"/></td>
+				<td class="ths w_on pay"><i class="ico s_on" id="chSOn"></i><i class="ico s_off" id="chSOff"></i></td>
+			</tr>
+		</table>
+		</div>
+		<div class="footer-ln">
+			<div class="pay help_block_stat" data-help="Stat"></div>
+			<div class="ib">
+				select items: <span id="chCnt">0</span>
+			</div>
+			<div class="ib" id="stat"></div>
+		</div>
+		<div class="footer-rbtn">
+			<div class="ib">
+				<i class="btn btn__p2 pay" id="act"><i>Authenticator</i></i>
+			</div>
+			<i class="ico icoSound gray" id="wOptChkSound"></i>
+		</div>
+	</div>
+</div>
+		<div id="falert">This Text</div>
+		<div class="alert" id="falert2">
+			<div class="close_obl">
+				[<span class="close">X</span>]
+			</div>
+			<div class="text"></div>
+
+		</div>
+<!--<link rel="import" href="authenticator.html" id="authenticatorTpl">-->
+		<div class="alert" id="popupForm">
+			<div class="close_obl">
+				[<span class="close">X</span>]
+			</div>
+			<div class="text alert__title alert__title_float">
+				<div class="js_text"></div>
+				<div style="margin-top: 1px;">Float value:</div>
+			</div>
+			<form>
+				<div>
+					<input data-e="val1 val2" class="inp l range0" type="range" multiple min="0" step="0.00000001" max="1"/>
+				</div>
+				<table width="100%">
+				<tr>
+					<td style="text-align: left; width: 50%">0.000</td>
+					<td style="text-align: right; width: 50%">1.000</td>
+				</tr>
+				</table>
+				<div style="margin-top: 1em">
+					<i data-e="range2" class="ib"><input name="min" class="inp l val2" placeholder="0.0000000"/></i>
+					-
+					<i class="ib"><input name="max" class="inp l val1" placeholder="1.0000000"/></i>
+					&nbsp; &nbsp;
+					<i class="btn Ok"><i>Apply</i></i>
+				</div>
+			</form>
+		</div>
+
+		<div class="alert" id="fprompt">
+			<div class="close_obl">
+				[<span class="close">X</span>]
+			</div>
+			<div class="text alert__title"></div>
+			<div><i class="ib w354"><input class="inp l" id="fprompt_text" placeholder=""/></i><i class="ico icoAddUrl Ok" id="AddUrl"></i></div>
+			<!--div>
+				<i class="btn Ok"><i>Save</i></i>
+				<i class="btn Close"><i>Close</i></i>
+			</div-->
+
+		</div>
+<script type="text/javascript" src="../lib/jq.js"></script>
+<script type="text/javascript" src="../lib/lib.js"></script>
+<script type="text/javascript" src="../../lib/d3.min.js"></script>
+<script type="text/javascript" src="page.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+   "extDescription": {
+      "description": "This extension facilitate the work on the Steam Community Market.",
+      "message": "Steam Trader Helper"
+   },
+   "extName": {
+      "description": "Steam Trader Helper. The extension name.",
+      "message": "Steam Trader Helper"
+   }
+}
