@@ -1,6 +1,6 @@
 {
 	"manifest_version": 2,
-	"version": "2.3.0.15",
+	"version": "2.3.0.16",
 	"name":"Steam Trader Helper",
 	"short_name": "S.T.H.",
 	
@@ -25,9 +25,10 @@
 		
 	],
 	"web_accessible_resources": [
-		"ico/19.png"
-		,"site/js/min.js"
-		,"site/css/site.css"
+		"ico/19.png",
+		"site/js/min.js",
+		"site/css/site.css",
+		"page/index.html"
 	],
 
 	"browser_action":{
@@ -39,6 +40,7 @@
 	    "scripts": [
 			"license-bypass.js",
 			"lib/jq.js",
+			"bg.js",
 			"SteamTraderHelper.js"
 	    ]
 	},
