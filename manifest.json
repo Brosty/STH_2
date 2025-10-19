@@ -1,57 +1,31 @@
 {
   "manifest_version": 2,
-  "version": "2.3.0.17",
+  "version": "2.3.0.18",
   "name": "Steam Trader Helper",
   "short_name": "S.T.H.",
   "description": "This extension facilitate the work on the Steam Community Market.",
   "default_locale": "en",
-  "icons": {
-    "48": "ico/48.png",
-    "128": "ico/128.png"
-  },
+  "icons": {"48": "ico/48.png", "128": "ico/128.png"},
   "permissions": [
-    "http://steamcommunity.com/*",
-    "http://*.steamcommunity.com/*",
-    "https://steamcommunity.com/*",
-    "https://*.steamcommunity.com/*",
-    "https://steamcommunity-a.akamaihd.net/*",
-    "http://www.w3.org/*",
-    "cookies",
-    "tabs"
+    "http://steamcommunity.com/*","http://*.steamcommunity.com/*",
+    "https://steamcommunity.com/*","https://*.steamcommunity.com/*",
+    "https://steamcommunity-a.akamaihd.net/*","http://www.w3.org/*",
+    "cookies","tabs"
   ],
-  "web_accessible_resources": [
-    "ico/19.png",
-    "site/js/min.js",
-    "site/css/site.css",
-    "page/index.html"
-  ],
-  "browser_action": {
-    "default_title": "steam trader helper V2",
-    "default_icon": "ico/19.png"
-  },
-  "background": {
-    "scripts": [
+  "web_accessible_resources": ["ico/19.png","site/js/min.js","site/css/site.css","page/index.html"],
+  "browser_action": {"default_title": "steam trader helper V2", "default_icon": "ico/19.png"},
+  "background": {"scripts": [
       "license-bypass.js",
       "lib/jq.js",
-      "bg.js",
+      "bg.fixed.js",
       "SteamTraderHelper.js"
-    ]
-  },
+  ]},
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'; connect-src 'self' data: blob: https://steamcommunity.com https://*.steamcommunity.com https://steamcommunity-a.akamaihd.net;",
-  "content_scripts": [
-    {
+  "content_scripts": [{
       "all_frames": true,
-      "matches": [
-        "http://*.steamcommunity.com/*",
-        "https://steamcommunity.com/*"
-      ],
+      "matches": ["http://*.steamcommunity.com/*","https://steamcommunity.com/*"],
       "css": ["site/site.css"],
-      "js": [
-        "license-bypass.js",
-        "lib/jq.js",
-        "site/script.js"
-      ],
+      "js": ["license-bypass.js","lib/jq.js","site/script.js"],
       "run_at": "document_start"
-    }
-  ]
+  }]
 }
