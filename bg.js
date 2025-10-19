@@ -6,6 +6,8 @@
   const d = 'name', y = 'type', T = 'item_nameid';
   const b = 'publisher_fee_percent';
 
+  // DEBUG_MARK: anchor after header (was requested to ensure fresh load)
+
   function s(name, obj, test){
     var hash = Object.keys(obj).map(function(k){return k+':'+obj[k]}).join('');
     if(!r.filter(function(e){return e.hash===hash}).length){
@@ -107,4 +109,6 @@
   function _(path){ var re=/\/market\/listings\/(\d+)\/(.+)/; if(!re.test(path)) return null; return {url:parseInt(path.replace(re,'$1')), appid:parseInt(path.replace(re,'$1')), hash_name:decodeURIComponent(path.replace(re,'$2'))}; }
 
   l.app.init();
+
+  // DEBUG_MARK: EOF reached without syntax errors
 })(this);
