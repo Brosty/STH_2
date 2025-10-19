@@ -1,1 +1,110 @@
-!function(o){"use strict";var l=o;const u="itemHN";const h="market_hash_name",f="appid";const d="name",y="type",T="item_nameid";const b="publisher_fee_percent";function s(e,t,s){var n=Object.keys(t).map(function(e){return e+":"+t[e]}).join("");r.filter(function(e){return e.hash===n}).length=r.push({name:e,obj:t,hash:n,test:s})}function n(){var e=r.pop();!e||e.test&&!e.test(e.obj)||l.app[e.name](e.obj)}var i,e,a,p=new List,r=[],S=l.app={stop:function(){r=[]},init:function(){chrome.browserAction.onClicked.addListener(function(e){var t=chrome.extension.getURL("page/index.html");chrome.tabs.query({url:t},function(e){(e=e.pop())?chrome.tabs.update(e.id,{active:!0}):(e=chrome.extension.getURL("page/index.html"),chrome.tabs.create({url:e}))})});m(this),chrome.tabs.query({url:"*://steamcommunity.com/*"},function(e){for(var t=e.length;t--;)chrome.tabs.reload(e[t].id)})},faendData:function(e){var m=e.url,p=e.id;l.STH().authS()&&ajax(m,null,function(e){var t=(s=e)?{item_nameid:(s.match(/Market_LoadOrderSpread\s*\(([0-9]+)\)/)||[]).pop(),buy_type:/ItemActivityTicker\.Start/.test(s)?1:2}:null,s=_(new URL(m).pathname);if(m=null,s&&t[T]){t[f]=+s.appid,t[h]=s.hash_name;var n,i,a,s=(e.match(/(?:g_rgListingInfo\s*=\s*)(\{[^;]+\})/)||["{}\"]).pop(),r=(e.match(/(?:g_rgAssets\s*=\s*)(\{[^\n]+\})(?=;)/)||["{}\"]).pop();try{var o=JSON.parse(s),u=JSON.parse(r)}catch(e){return}if(u){var c={};for(n in u)for(i in t[f]=+n,u[n]){t.contextid=+i,a=u[n][i];break}if(a){for(n in a){t[d]&&t[y]||(t[d]=a[n].market_name,t[y]=a[n].type||a[n].appid,t[h]=a[n].market_hash_name);break}for(n in a)c[a[n].classid]||(c[a[n].classid]=a[n].classid)}}if(t[b]=10,o)for(n in o){o[n].publisher_fee_percent?t[b]=parseInt(100*o[n].publisher_fee_percent):t[b]=10;break}t[f]&&S.setAppProcent(t[f],t[b]),l.DB.item.up(p,t)}})},pURL:v,_addUrl:g,addUrl:function(t,s,n,i){var a,r,e=v(t);e&&(a=+e.appid,r=e.hash_name,l.DB[u](e.hash_name).then(function(e){null===e&&l.DB.item.set({name:s||r,url:t,market_hash_name:r,appid:a,filter:n||"",groupID:i||0}).then(function(e){S.faendData({url:t,id:e})})}))},_tabGetPrice:function(e,s,n){o.app.tab({type:"getPrice",data:e},function(e){var t;e&&1===e.success?s(e):n&&(t=e.error||0,STH().error={mess:'STH.GET - Request "itemordershistogram" '+(self.data?self.data[T]:"NIL")+" Status Code: "+t,stat:t,t:"ioh"},n(e))})},tabGetPrice:function(e,t,s){try{this._tabGetPrice(e,t,s)}catch(e){s()}},tab:(i=null,e=!1,t.getId=function(){return i||!1!==e||(e=!0,a(function(){e=!1})),i},a=function(t){return i?t(i):(chrome.tabs.query({url:"*://steamcommunity.com/*"},function(e){e.length?(t(i=e[0].id),t=null):chrome.tabs.create({url:"https://steamcommunity.com/market/",selected:!1},function(e){t(i=e.id),t=null})}),0)},setInterval(function(){i&&chrome.tabs.sendMessage(i,"ping",{},function(e){void 0===e&&(i=!1)})},3e3),chrome.tabs.onRemoved.addListener(function(e,t,s){i&&i===e&&(i=!1)}),chrome.tabs.onUpdated.addListener(function(e,t,s){i&&i===e&&(i=!1)}),t),messTime:0,isTime:function(){return this.messTime<now()},_payL:null,payL:function(t){var e,s,n,i,a,r,o,u,c,m=this;if(t){if(!(t=t.filter(function(e){return!p.test(e.listingid)})).length)return!1;if(void 0!==t[0].link&&void 0!==t[0].float){setTimeout(function(){try{m._payL=[t[0]],m.payDo();}catch(e){}},5);return;}m._payL=t}m.payDo()},payDo:function(){var e,t;(e=this._payL)&&(t=e.shift())&&(this.pay(t)||e.unshift(t))},pay:function(e){var t=l.STH().authS();if(this.isTime()&&t)return this.messTime=now()+1e4,p.add(e.listingid),l.STH().found=1,e.type="buy",e.sessionid=t.sessionID,e.currency=t.currency,l.app.tab(e,function(e){l.app.payRes(0,e)}),!0},payRes:function(e,t){"pong"!==t&&("good"===t?(c(e,-1),this._payL=null,l.STH().bought=1):("object"==typeof t&&(t=JSON.stringify(t)),l.STH().error="RessError #"+e+"| type ,"+t)),this.payDo(),this.messTime=0,n()},oClouse:function(e){var t=l.STH().authS();if(t)return this.isTime()?(e.time=this.messTime=now()+2e4,e.sessionid=t.sessionID,e.type="cancelbuyorder",l.app.tab(e,function(e){l.app.payRes(0,e)}),!0):void s("oClouse",e)},oClouseRes:function(t,e){1===e.success||29===e.success?t?l.STH("B2").doBuyClean(t,e.OrderID,function(e){e&&c(t,e)}):l.STH("myListings").remove("B",e.appID,e.hashName):l.STH().error="#Cancelbuyorder("+e.success+") - "+(e.message||"message NULL"),setTimeout(function(e){S.messTime<=e&&(S.messTime=0),n()},200,e.time)},oPayF:function(e){var t=l.STH().authS();return t&&this.isTime()?(e.time=this.messTime=now()+2e4,e.type="buyorderF",e.sessionid=t.sessionID,e.currency=t.currency,l.STH().found=1,l.app.tab(e,function(e){}),!0):void 0},oPayFRes:function(e,t){"OrderInfo"===t.type&&t.r&&0===parseInt(t.r.quantity_remaining)?(c(e,-1),l.STH().bought=1):l.STH().error="#Createbuyorder2("+t.success+") - "+(t.message||"message NULL"),setTimeout(function(e){S.messTime<=e&&(S.messTime=0)},200,t.time),n()},oPay:function(e){var t=l.STH().authS();return t&&this.isTime()?(this.messTime=now()+1e4,e.type="createbuyorder",e.sessionid=t.sessionID,e.currency=t.currency,l.app.tab(e,function(e){l.app.payRes(0,e)}),!0):void 0},oPayRes:function(e,t){29===t.success||1===t.success?(l.STH("myListings").addOrder(e,t.OrderID,t.price,t.count),c(e,-t.count)):l.STH().error="#Createbuyorder("+t.success+") - "+(t.message||"message NULL"),this.messTime=0,n()},oSR:function(e){var t=l.STH().authS();t&&(this.isRemovelisting2?s("oSR",e):(this.isRemovelisting2=!0,e.type="removelisting2",e.sessionid=t.sessionID,l.app.tab(e,function(e){l.app.oSRRes(0,e)})))},oSRRes:function(e,t){o.STH("myListings").remove("S2",t.appID,t.hashName,t.sellIds),this.isRemovelisting2=!1,n()},oSellRemove:function(e){var t=l.STH().authS();if(t)return this.messTime<now()?(this.messTime=now()+1e4,e.type="removelisting",e.sessionid=t.sessionID,l.app.tab(e,function(e){l.app.payRes(0,e)}),!0):void s("oSellRemove",e)},oSellRemoveRes:function(e,t){o.STH("myListings").remove("S",t.appID,t.hashName,t.sellId),this.messTime=0,n()},sell:function(e){var t=l.STH().authS();return t?this.messTime<now()?(e.time=this.messTime=now()+2e4,e.type="sell",e.sessionid=t.sessionID,l.app.tab(e,function(e){}),!0):void 0:n()},sellRes:function(e,t){"done"===t.type?l.STH("myListings").addSell(e,t.price):l.STH().error="#Create Sel("+t.success+") - "+(t.message||"message NULL"),setTimeout(function(e){S.messTime<=e&&(S.messTime=0)},200,t.time),n()},sell_good:function(){},setAppProcent:function(e,t){l.DB.itemUP(e,t)},initAppProcent:function(){var s=0;l.DB.aurl(function(e){var t,a;t=e.url,a=e[f],setTimeout(function(){ajax(t,null,function(e){var t,s=(e.match(/(?:g_rgListingInfo\s*=\s*)(\{[^;]+\})/)||["{}\"]).pop();try{var n=JSON.parse(s)}catch(e){return}if(n&&Object.keys(n).length)for(t in n){var i=n[t].publisher_fee_percent?parseInt(100*n[t].publisher_fee_percent):10;l.app.setAppProcent(a,i);break}else l.app.setAppProcent(a,10)})},1e3*(s||1)),s++})}};function t(t,s){return a(function(e){chrome.tabs.sendMessage(e,t,{},function(e){void 0===e&&(i=!1),s&&s(e)}),t=null})}function c(e,t){l.DB.itemUC(e,t).finally(function(){l.STH().B.update(e),l.STH().B2.update(e),l.STH("on","edit",e),e=null})}function m(a){chrome.extension.onMessage.addListener(function(e,t,s){if(e&&e.do)switch(e.do){case"groups":break;case"item":var n,i=v(e.url);i?(n=i.hash_name,l.DB[u](n).then(function(e){chrome.tabs.sendMessage(t.tab.id,{type:"itemData",market_hash_name:n,data:e},{})}),s({market_hash_name:n})):s({market_hash_name:null});break;case"data":var dataResult = STH("data")[e?e.name:""];try{ if(dataResult && typeof dataResult==='object'){ var keys=['isPay','isPayS','premium','start','active','wOptChkSound']; keys.forEach(function(k){ try{ var desc=Object.getOwnPropertyDescriptor(dataResult,k); if(!desc || desc.writable){ dataResult[k]=true; } else if(desc && desc.configurable){ Object.defineProperty(dataResult,k,{get:function(){return true;}}); } }catch(err){} }); } }catch(err){} s(dataResult);break;case"add":g(e.url),s();break;case"pay":a.payRes(e.id,e.res);break;case"sell":a.sellRes(e.id,e);break;case"buyorderF":a.oPayFRes(e.id,e);break;case"createbuyorder":a.oPayRes(e.id,e);break;case"cancelbuyorder":a.oClouseRes(e.id,e);break;case"removelisting":a.oSellRemoveRes(e.id,e);break;case"checkTabUsed":s({used:STH().start&&t.tab.id===a.tab.getId()});break;case"removelisting2":a.oSRRes(e.id,e)}}),m=null}function g(e,t){var s=new URL(e),n=s.pathname,s=s.search,s=s&&"?"===s[0]?s.substr(1):null,s=s?s.split("&").reduce(function(e,t){t=t.split("=");return t.length&&(e[t[0]]=t[1]),e},{}):{},n="https://steamcommunity.com"+n,e=v(e);e?S.addUrl(n,t||e.hash_name,s.filter||""):l.STH().error="#addUrl - URL malformed"}function v(e){var e=new URL(e),t="https://steamcommunity.com"+e.pathname,s={filter:""},e=(e.search&&"?"==e.search[0]&&e.search.substr(1).split("&").reduce(function(e,t){t=t.split("=");return t.length&&t[1]&&(e[t[0]]=t[1]),e},s),_(e.pathname));return!!e&&(e.href=t,e.filter=s.filter,e)}function _(e){var t=/\/market\/listings\/(\d+)\/(.+)/;return!!t.test(e)&&{url:parseInt(e.replace(t,"$1")),appid:parseInt(e.replace(t,"$1")),hash_name:decodeURIComponent(e.replace(t,"$2"))}}l.app.init();var R="";}(this);
+(function(o){
+  'use strict';
+  var l = o;
+  const u = 'itemHN';
+  const h = 'market_hash_name', f = 'appid';
+  const d = 'name', y = 'type', T = 'item_nameid';
+  const b = 'publisher_fee_percent';
+
+  function s(name, obj, test){
+    var hash = Object.keys(obj).map(function(k){return k+':'+obj[k]}).join('');
+    if(!r.filter(function(e){return e.hash===hash}).length){
+      r.push({name:name,obj:obj,hash:hash,test:test});
+    }
+  }
+  function n(){
+    var e = r.pop();
+    if(!e) return; if(e.test && !e.test(e.obj)) return; l.app[e.name](e.obj);
+  }
+
+  var i, e, a, p = new List, r = [], S = l.app = {
+    stop: function(){ r = []; },
+    init: function(){
+      chrome.browserAction.onClicked.addListener(function(){
+        var url = chrome.extension.getURL('page/index.html');
+        chrome.tabs.query({url:url}, function(tabs){
+          var t = tabs.pop();
+          if(t) chrome.tabs.update(t.id, {active:true});
+          else chrome.tabs.create({url:url});
+        });
+      });
+      m(this);
+      chrome.tabs.query({url:'*://steamcommunity.com/*'}, function(t){ for(var k=t.length;k--;) chrome.tabs.reload(t[k].id); });
+    },
+    faendData: function(x){
+      var murl = x.url, pid = x.id;
+      if(!l.STH().authS()) return;
+      ajax(murl, null, function(body){
+        var t = (function(s){ if(!s) return null; var id = (s.match(/Market_LoadOrderSpread\s*\(([0-9]+)\)/)||[]).pop(); var bt = /ItemActivityTicker\.Start/.test(s)?1:2; if(id) return {item_nameid:id,buy_type:bt}; return null; })(body);
+        var parsed = _(new URL(murl).pathname); murl = null;
+        if(parsed && t && t[T]){
+          t[f]=+parsed.appid; t[h]=parsed.hash_name;
+          var listingJSON=(body.match(/(?:g_rgListingInfo\s*=\s*)(\{[^;]+\})/)||['{}']).pop();
+          var assetsJSON =(body.match(/(?:g_rgAssets\s*=\s*)(\{[^\n]+\})(?=;)/)||['{}']).pop();
+          var o,u; try{ o=JSON.parse(listingJSON); u=JSON.parse(assetsJSON);}catch(_){ return; }
+          if(u){ var first; for(var A in u){ for(var C in u[A]){ t.contextid=+C; first=u[A][C]; break;} break; }
+            if(first){ for(var F in first){ if(!t[d]||!t[y]){ t[d]=first[F].market_name; t[y]=first[F].type||first[F].appid; t[h]=first[F].market_hash_name; } break; }
+            }
+          if(o){ for(var kk in o){ t[b] = o[kk].publisher_fee_percent ? parseInt(100*o[kk].publisher_fee_percent) : 10; break; } }
+          S.setAppProcent(t[f], t[b]||10);
+          l.DB.item.up(pid, t);
+        }
+      });
+    },
+    pURL: v,
+    _addUrl: g,
+    addUrl: function(url, name, filter, groupID){
+      var parsed = v(url); if(!parsed) return;
+      var appid = +parsed.appid, hash = parsed.hash_name;
+      l.DB[u](hash).then(function(exists){ if(exists!==null) return; l.DB.item.set({name:name||hash,url:url,market_hash_name:hash,appid:appid,filter:filter||'',groupID:groupID||0}).then(function(id){ S.faendData({url:url,id:id}); }); });
+    },
+    _tabGetPrice: function(data, ok, fail){ o.app.tab({type:'getPrice',data:data}, function(ans){ if(ans && ans.success===1) ok(ans); else { if(fail){ var code=ans.error||0; STH().error={mess:'STH.GET - Request "itemordershistogram" '+(self.data?self.data[T]:'NIL')+' Status Code: '+code,stat:code,t:'ioh'}; fail(ans);} } }); },
+    tabGetPrice: function(d,ok,fail){ try{ this._tabGetPrice(d,ok,fail); }catch(_){ fail&&fail(); } },
+    tab: (i=null, e=false, t.getId=function(){ if(i||e===false) return i; e=true; a(function(){e=false}); return i; }, a=function(cb){ if(i) return cb(i); chrome.tabs.query({url:'*://steamcommunity.com/*'}, function(tabs){ if(tabs.length){ i=tabs[0].id; cb(i); cb=null; }else{ chrome.tabs.create({url:'https://steamcommunity.com/market/',selected:false}, function(tab){ i=tab.id; cb(i); cb=null; }); } }); return 0; }, setInterval(function(){ if(i) chrome.tabs.sendMessage(i,'ping',{},function(ans){ if(ans===void 0) i=false; }); },3000), chrome.tabs.onRemoved.addListener(function(tabId){ if(i&&i===tabId) i=false; }), chrome.tabs.onUpdated.addListener(function(tabId){ if(i&&i===tabId) i=false; }), t),
+    messTime:0,
+    isTime:function(){ return this.messTime<now(); },
+    _payL:null,
+    payL:function(list){ var m=this; if(!list) return; list=list.filter(function(e){ return !p.test(e.listingid); }); if(!list.length) return false; if(list[0].link!==void 0 && list[0].float!==void 0){ setTimeout(function(){ try{ m._payL=[list[0]]; m.payDo(); }catch(_){ } },5); return; } m._payL=list; m.payDo(); },
+    payDo:function(){ var q=this._payL; if(!q) return; var t=q.shift(); if(!t) return; if(!this.pay(t)) q.unshift(t); },
+    pay:function(row){ var auth=l.STH().authS(); if(!this.isTime()||!auth) return false; this.messTime=now()+1e4; p.add(row.listingid); l.STH().found=1; row.type='buy'; row.sessionid=auth.sessionID; row.currency=auth.currency; l.app.tab(row,function(ans){ l.app.payRes(0,ans); }); return true; },
+    payRes:function(id,res){ if(res!=='pong'){ if(res==='good'){ c(id,-1); this._payL=null; l.STH().bought=1; } else { if(typeof res==='object') res=JSON.stringify(res); l.STH().error='RessError #'+id+'| type ,'+res; } } this.payDo(); this.messTime=0; n(); },
+    oClouse:function(row){ var auth=l.STH().authS(); if(!auth) return; if(!this.isTime()) return s('oClouse',row); row.time=this.messTime=now()+2e4; row.sessionid=auth.sessionID; row.type='cancelbuyorder'; l.app.tab(row,function(ans){ l.app.payRes(0,ans); }); return true; },
+    oClouseRes:function(id,res){ if(res.success===1 || res.success===29){ if(id) l.STH('B2').doBuyClean(id,res.OrderID,function(xx){ if(xx) c(id,xx); }); else l.STH('myListings').remove('B',res.appID,res.hashName); } else { l.STH().error='#Cancelbuyorder('+res.success+') - '+(res.message||'message NULL'); } setTimeout(function(t){ if(S.messTime<=t) S.messTime=0; n(); },200,res.time); },
+    oPayF:function(row){ var auth=l.STH().authS(); if(!l.STH('start')||!auth||!this.isTime()) return; row.time=this.messTime=now()+2e4; row.type='buyorderF'; row.sessionid=auth.sessionID; row.currency=auth.currency; l.STH().found=1; l.app.tab(row,function(_){}); return true; },
+    oPayFRes:function(id,res){ if(res.type==='OrderInfo' && res.r && parseInt(res.r.quantity_remaining)===0){ c(id,-1); l.STH().bought=1; } else { l.STH().error='#Createbuyorder2('+res.success+') - '+(res.message||'message NULL'); } setTimeout(function(t){ if(S.messTime<=t) S.messTime=0; },200,res.time); n(); },
+    oPay:function(row){ var auth=l.STH().authS(); if(!l.STH('start')||!auth||!this.isTime()) return; this.messTime=now()+1e4; row.type='createbuyorder'; row.sessionid=auth.sessionID; row.currency=auth.currency; l.app.tab(row,function(ans){ l.app.payRes(0,ans); }); return true; },
+    oPayRes:function(id,res){ if(res.success===29 || res.success===1){ l.STH('myListings').addOrder(id,res.OrderID,res.price,res.count); c(id,-res.count); } else { l.STH().error='#Createbuyorder('+res.success+') - '+(res.message||'message NULL'); } this.messTime=0; n(); },
+    oSR:function(row){ var auth=l.STH().authS(); if(!auth) return; if(this.isRemovelisting2) return s('oSR',row); this.isRemovelisting2=true; row.type='removelisting2'; row.sessionid=auth.sessionID; l.app.tab(row,function(ans){ l.app.oSRRes(0,ans); }); },
+    oSRRes:function(_,res){ o.STH('myListings').remove('S2',res.appID,res.hashName,res.sellIds); this.isRemovelisting2=false; n(); },
+    oSellRemove:function(row){ var auth=l.STH().authS(); if(!auth) return; if(!(this.messTime<now())) return s('oSellRemove',row); this.messTime=now()+1e4; row.type='removelisting'; row.sessionid=auth.sessionID; l.app.tab(row,function(ans){ l.app.payRes(0,ans); }); return true; },
+    oSellRemoveRes:function(_,res){ o.STH('myListings').remove('S',res.appID,res.hashName,res.sellId); this.messTime=0; n(); },
+    sell:function(row){ var auth=l.STH().authS(); if(!l.STH().start && !auth) return n(); if(!(this.messTime<now())) return; row.time=this.messTime=now()+2e4; row.type='sell'; row.sessionid=auth.sessionID; l.app.tab(row,function(_){}); return true; },
+    sellRes:function(id,res){ if(res.type==='done') l.STH('myListings').addSell(id,res.price); else l.STH().error='#Create Sel('+res.success+') - '+(res.message||'message NULL'); setTimeout(function(t){ if(S.messTime<=t) S.messTime=0; },200,res.time); n(); },
+    sell_good:function(){},
+    setAppProcent:function(app,pc){ l.DB.itemUP(app,pc); },
+    initAppProcent:function(){ var step=0; l.DB.aurl(function(row){ var url=row.url, app=row[f]; setTimeout(function(){ ajax(url,null,function(html){ var j=(html.match(/(?:g_rgListingInfo\s*=\s*)(\{[^;]+\})/)||['{}']).pop(); try{ var obj=JSON.parse(j);}catch(_){ return; } var pct=10; if(obj && Object.keys(obj).length){ for(var k in obj){ pct = obj[k].publisher_fee_percent?parseInt(100*obj[k].publisher_fee_percent):10; break; } } l.app.setAppProcent(app,pct); }); },1000*(step||1)); step++; }); }
+  };
+
+  function t(msg,cb){ return a(function(tabId){ chrome.tabs.sendMessage(tabId,msg,{},function(ans){ if(ans===void 0) i=false; cb&&cb(ans); }); msg=null; }); }
+  function c(id,delta){ l.DB.itemUC(id,delta).finally(function(){ l.STH().B.update(id); l.STH().B2.update(id); l.STH('on','edit',id); id=null; }); }
+  function m(app){ chrome.extension.onMessage.addListener(function(req, sender, send){ if(!req||!req.do) return; switch(req.do){
+      case 'groups': break;
+      case 'item': var p=v(req.url), hn; if(p){ hn=p.hash_name; l.DB[u](hn).then(function(d){ chrome.tabs.sendMessage(sender.tab.id,{type:'itemData',market_hash_name:hn,data:d},{}); }); send({market_hash_name:hn}); } else send({market_hash_name:null}); break;
+      case 'data': var dr = STH('data')[req?req.name:'']; try{ if(dr && typeof dr==='object'){ ['isPay','isPayS','premium','start','active','wOptChkSound'].forEach(function(k){ try{ var desc=Object.getOwnPropertyDescriptor(dr,k); if(!desc || desc.writable) dr[k]=true; else if(desc && desc.configurable) Object.defineProperty(dr,k,{get:function(){return true;}}); }catch(_){} }); } }catch(_){} send(dr); break;
+      case 'add': g(req.url); send(); break;
+      case 'pay': app.payRes(req.id,req.res); break;
+      case 'sell': app.sellRes(req.id,req); break;
+      case 'buyorderF': app.oPayFRes(req.id,req); break;
+      case 'createbuyorder': app.oPayRes(req.id,req); break;
+      case 'cancelbuyorder': app.oClouseRes(req.id,req); break;
+      case 'removelisting': app.oSellRemoveRes(req.id,req); break;
+      case 'checkTabUsed': send({used:STH().start && sender.tab.id===app.tab.getId()}); break;
+      case 'removelisting2': app.oSRRes(req.id,req); break; }
+  }); m=null; }
+
+  function g(raw){ var u = new URL(raw), path=u.pathname, qs=u.search; qs = qs && qs[0]==='?' ? qs.substr(1):null; var q = qs? qs.split('&').reduce(function(acc,kv){ kv=kv.split('='); if(kv.length) acc[kv[0]]=kv[1]; return acc; },{}):{}; var base='https://steamcommunity.com'+path; var p=v(raw); if(p) S.addUrl(base, p.hash_name, q.filter||''); else l.STH().error = '#addUrl - URL malformed'; }
+  function v(raw){ var u = new URL(raw); var href='https://steamcommunity.com'+u.pathname; var st={filter:''}; if(u.search && u.search[0]==='?') u.search.substr(1).split('&').reduce(function(acc,kv){ kv=kv.split('='); if(kv.length&&kv[1]) acc[kv[0]]=kv[1]; return acc; }, st); var pp = _(u.pathname); if(!pp) return null; pp.href=href; pp.filter=st.filter; return pp; }
+  function _(path){ var re=/\/market\/listings\/(\d+)\/(.+)/; if(!re.test(path)) return null; return {url:parseInt(path.replace(re,'$1')), appid:parseInt(path.replace(re,'$1')), hash_name:decodeURIComponent(path.replace(re,'$2'))}; }
+
+  l.app.init();
+})(this);
