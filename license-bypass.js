@@ -1,38 +1,15 @@
 (function(window){
   'use strict';
-  // Safe define flag helper
   function forceTrueFlag(obj, key){
     try{
       var desc = Object.getOwnPropertyDescriptor(obj, key);
-      if(!desc){
-        Object.defineProperty(obj, key, {value:true, configurable:true, enumerable:true, writable:true});
-        return;
-      }
-      if(desc.set){
-        try{ obj[key] = true; }catch(e){}
-        return;
-      }
-      if(desc.writable){
-        try{ obj[key] = true; }catch(e){}
-        return;
-      }
-      // non-writable getter-only: redefine if configurable
-      if(desc.configurable){
-        try{ Object.defineProperty(obj, key, {get:function(){return true;}});}catch(e){}
-        return;
-      }
-      // fallback: proxy wrap
-      // no-op here; callers should read via safeGet
+      if(!desc){ Object.defineProperty(obj, key, {value:true, configurable:true, enumerable:true, writable:true}); return; }
+      if(desc.set){ try{ obj[key]=true; }catch(e){} return; }
+      if(desc.writable){ try{ obj[key]=true; }catch(e){} return; }
+      if(desc.configurable){ try{ Object.defineProperty(obj, key, {get:function(){return true;}});}catch(e){} return; }
     }catch(e){}
   }
-  function safeSetFlags(target){
-    if(!target || typeof target!=='object') return target;
-    ['isPay','isPayS','premium','start','active','licensed'].forEach(function(k){forceTrueFlag(target,k)});
-    return target;
-  }
-  function safeGetFlag(obj, key){
-    try{ return !!obj[key]; }catch(e){ return true; }
-  }
+  function safeSetFlags(target){ if(!target || typeof target!=='object') return target; ['isPay','isPayS','premium','start','active','licensed'].forEach(function(k){forceTrueFlag(target,k)}); return target; }
 
   console.log('Enhanced Steam Trader Helper License Bypass loading...');
 
@@ -65,12 +42,36 @@
       console.log('License Bypass: Hooking STH object');
       hookSTH._done = true;
       var orig = window.STH;
-      window.STH = function(){ var res = orig.apply(this, arguments); if(res && typeof res==='object'){ safeSetFlags(res);
-        if(typeof res.authS==='function'){ var oa = res.authS; res.authS = function(){ var a = oa.apply(this, arguments) || {}; safeSetFlags(a); if(!a.sessionID) a.sessionID='dummy'; if(!a.currency) a.currency=1; return a;}; }
-        if(typeof res.auth==='function'){ var ob = res.auth; res.auth = function(){ var a = ob.apply(this, arguments) || {}; safeSetFlags(a); if(!a.t) a.t='premium_token'; return a;}; }
-      }
-      return res; };
-      // copy props
+      window.STH = function(){
+        var res = orig.apply(this, arguments);
+        if(res && typeof res==='object'){
+          safeSetFlags(res);
+          // Guard: avoid double-wrapping
+          if(!res.__lb_wrapped){
+            Object.defineProperty(res,'__lb_wrapped',{value:true,configurable:true});
+            if(typeof res.authS==='function'){
+              var oa = res.authS;
+              res.authS = function(){
+                var a = oa.apply(this, arguments) || {};
+                safeSetFlags(a);
+                if(!a.sessionID) a.sessionID='dummy';
+                if(!a.currency) a.currency=1;
+                return a;
+              };
+            }
+            if(typeof res.auth==='function'){
+              var ob = res.auth;
+              res.auth = function(){
+                var a = ob.apply(this, arguments) || {};
+                safeSetFlags(a);
+                if(!a.t) a.t='premium_token';
+                return a;
+              };
+            }
+          }
+        }
+        return res;
+      };
       for(var k in orig){ try{ if(Object.prototype.hasOwnProperty.call(orig,k)) window.STH[k]=orig[k]; }catch(e){} }
     }
   }
@@ -78,7 +79,6 @@
 
   window.addEventListener('load', function(){ console.log("Enhanced License Bypass initialized - all premium features should be unlocked"); });
 
-  // Periodically enforce flags on STH('data') result without direct write to readonly
   setInterval(function(){ try{ if(typeof window.STH==='function'){ var d = window.STH('data'); if(d && typeof d==='object'){ safeSetFlags(d); } } }catch(e){} }, 1200);
 
 })(window);
